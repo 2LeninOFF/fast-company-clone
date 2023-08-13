@@ -3,7 +3,7 @@ import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useAuth } from "../../hooks/useAuth";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -22,6 +22,7 @@ const LoginForm = () => {
         }));
         setEnterError(null);
     };
+
     const validatorConfig = {
         email: {
             isRequired: {
@@ -48,12 +49,17 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
+
         try {
             await logIn(data);
-            history.push("/");
+
+            history.push(
+                history.location.state
+                    ? history.location.state.from.pathname
+                    : "/"
+            );
         } catch (error) {
             setEnterError(error.message);
-            console.log(error.message);
         }
     };
     return (
