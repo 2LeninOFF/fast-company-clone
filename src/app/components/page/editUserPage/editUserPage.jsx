@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../api";
 import MultiSelectField from "../../common/form/multiSelectField";
+<<<<<<< Updated upstream
 import RadioField from "../../common/form/radioField";
 import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+=======
+import BackHistoryButton from "../../common/backButton";
+import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getQualities,
+    getQualitiesLoadingStatus
+} from "../../../store/qualities";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../store/professions";
+>>>>>>> Stashed changes
 
 const EditUserPage = ({ userId }) => {
     const history = useHistory();
+<<<<<<< Updated upstream
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -28,6 +43,35 @@ const EditUserPage = ({ userId }) => {
                 return { _id: prof.value, name: prof.label };
             }
         }
+=======
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState();
+    const { currentUser, updateUserData } = useAuth();
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
+    const qualitiesList = qualities.map((q) => ({
+        label: q.name,
+        value: q._id
+    }));
+    const professions = useSelector(getProfessions());
+    const professionLoading = useSelector(getProfessionsLoadingStatus());
+    const professionsList = professions.map((p) => ({
+        label: p.name,
+        value: p._id
+    }));
+    const [errors, setErrors] = useState({});
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const isValid = validate();
+        if (!isValid) return;
+        await updateUserData({
+            ...data,
+            qualities: data.qualities.map((q) => q.value)
+        });
+
+        history.push(`/users/${currentUser._id}`);
+>>>>>>> Stashed changes
     };
     const getQualities = (elements) => {
         const qualitiesArray = [];
@@ -43,6 +87,7 @@ const EditUserPage = ({ userId }) => {
             }
         }
         return qualitiesArray;
+<<<<<<< Updated upstream
     };
 
     const transformData = (data) =>
@@ -88,7 +133,15 @@ const EditUserPage = ({ userId }) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
+=======
+    }
+    const transformData = (data) => {
+        const result = getQualitiesListByIds(data).map((qual) => ({
+            label: qual.name,
+            value: qual._id
+>>>>>>> Stashed changes
         }));
+        return result;
     };
     const validatorConfig = {
         email: {

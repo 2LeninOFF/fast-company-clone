@@ -7,7 +7,23 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
+<<<<<<< Updated upstream
 const UsersListPage = () => {
+=======
+import { useUser } from "../../../hooks/useUsers";
+import { useSelector } from "react-redux";
+import { useAuth } from "../../../hooks/useAuth";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../store/professions";
+
+const UsersListPage = () => {
+    const { users } = useUser();
+    const { currentUser } = useAuth();
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
+>>>>>>> Stashed changes
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [searchQuery, setSearchQuery] = useState("");

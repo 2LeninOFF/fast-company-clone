@@ -6,6 +6,14 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
+<<<<<<< Updated upstream
+=======
+import { getProfessions } from "../../store/professions";
+import { useAuth } from "../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getQualities } from "../../store/qualities";
+>>>>>>> Stashed changes
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -16,8 +24,22 @@ const RegisterForm = () => {
         qualities: [],
         licence: false
     });
+<<<<<<< Updated upstream
     const [qualities, setQualities] = useState([]);
     const [professions, setProfession] = useState([]);
+=======
+    const { signUp } = useAuth();
+    const qualities = useSelector(getQualities());
+    const qualitiesList = qualities.map((q) => ({
+        label: q.name,
+        value: q._id
+    }));
+    const professions = useSelector(getProfessions());
+    const professionsList = professions.map((p) => ({
+        label: p.name,
+        value: p._id
+    }));
+>>>>>>> Stashed changes
     const [errors, setErrors] = useState({});
 
     const getProfessionById = (id) => {
